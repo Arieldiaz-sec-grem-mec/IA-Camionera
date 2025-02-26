@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunta a la IA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #response {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #response h2 {
+            margin-top: 0;
+            color: #444;
+        }
+        #responseOutput {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pregunta a la IA</h1>
+    <form id="apiForm">
+        <label for="query">Ingresa tu pregunta:</label>
+        <input type="text" id="query" name="query" placeholder="Ej: ¿Cuál es la capital de Francia?" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="response">
+        <h2>Respuesta:</h2>
+        <pre id="responseOutput"></pre>
+    </div>
+
+    <script>
+        document.getElementById('apiForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+
+            const query = document.getElementById('query').value;
+
+            // Realiza la solicitud a la API de Magic Loops
+            fetch('https://magicloops.dev/api/loop/436e00e1-1c8f-49f2-a112-deec581e75ac/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: query })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Muestra la respuesta en la página
+                document.getElementById('responseOutput').textContent = data.response;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('responseOutput').textContent = `Hubo un error: ${error.message}`;
+            });
+        });
+    </script>
+</body>
+</html>
