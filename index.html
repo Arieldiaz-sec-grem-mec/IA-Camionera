@@ -45,9 +45,9 @@
             margin-top: 20px;
             position: relative;
         }
-        input[type="text"] {
+        textarea {
             flex: 1;
-            padding: 10px 40px 10px 35px;
+            padding: 10px 40px 10px 10px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
@@ -55,24 +55,30 @@
             color: #fff;
             outline: none;
             width: 100%;
+            resize: none;
+            min-height: 50px;
+            max-height: 200px;
+            overflow-y: auto;
         }
-        .input-container .clear-btn {
+        .clear-btn {
             position: absolute;
-            left: 10px;
+            right: 55px;
+            top: 50%;
+            transform: translateY(-50%);
             background: none;
             border: none;
             color: #aaa;
             cursor: pointer;
             font-size: 18px;
         }
-        .input-container .clear-btn:hover {
+        .clear-btn:hover {
             color: #fff;
         }
         button {
             padding: 10px 15px;
             background-color: #28a745;
             border: none;
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
@@ -92,10 +98,10 @@
         <div id="responseOutput">Esperando tu pregunta...</div>
 
         <form id="apiForm" class="input-container">
+            <textarea id="query" name="query" placeholder="Escribe tu pregunta..." oninput="autoExpand(this)" required></textarea>
             <button type="button" class="clear-btn" onclick="clearInput()">
                 <i class="fas fa-times"></i>
             </button>
-            <input type="text" id="query" name="query" placeholder="Escribe tu pregunta..." required>
             <button type="submit"><i class="fas fa-paper-plane"></i></button>
         </form>
     </div>
@@ -130,6 +136,11 @@
 
         function clearInput() {
             document.getElementById('query').value = "";
+        }
+
+        function autoExpand(textarea) {
+            textarea.style.height = "50px";
+            textarea.style.height = (textarea.scrollHeight) + "px";
         }
     </script>
 
